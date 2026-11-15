@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>无畏契约角色画风 LoRA · 刘宏亮</title>
+<style>
+:root{--ink:#101a18;--paper:#f4efdc;--pink:#78f3ca}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ink);color:var(--paper);font-family:"Microsoft YaHei",sans-serif}
+a:focus-visible{outline:2px solid var(--pink);outline-offset:4px}
+.workflow-brand{max-width:1650px;margin:auto;padding:24px 5vw 0}
+.workflow-nav{margin-top:32px;text-align:right}
+.workflow-nav a{display:inline-block;padding:9px 13px;border:1px solid #405852;background:#1b2925;text-decoration:none}
+.workflow-nav a:hover{border-color:var(--pink)}
+
+.workflow-section{max-width:1650px;margin:auto;padding:56px 5vw;color:var(--paper)}
+.workflow-section h2{font-size:clamp(30px,4vw,58px);margin:0 0 24px;line-height:1.1}
+.workflow-card{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);background:#17241f;border:1px solid #38514a;border-radius:6px;overflow:hidden;text-decoration:none;color:inherit}
+a.workflow-card:hover,.workflow-card:focus-within{border-color:var(--pink)}
+.workflow-card + .workflow-card{margin-top:16px}
+.workflow-card-edit{grid-template-columns:1fr;border-left:3px solid var(--pink)}
+.workflow-card img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+.workflow-card-featured{grid-template-columns:minmax(0,min(44%,520px)) minmax(0,1fr)}
+.workflow-card-featured img{height:auto;align-self:center}
+.lora-card .lora-cover{position:relative;background:radial-gradient(ellipse at center,#fff 32%,#f3e0eb 100%);aspect-ratio:16/9;overflow:hidden}
+.lora-card .lora-cover img{position:absolute;inset:0;height:100%;aspect-ratio:auto;object-fit:contain;mix-blend-mode:multiply}
+.lora-card .lora-cover-dark{background:radial-gradient(ellipse at center,#25243d,#10111f 80%)}
+.lora-card .lora-cover-dark img{mix-blend-mode:normal}
+.workflow-copy{padding:clamp(22px,3.4vw,55px);display:grid;align-content:center;gap:14px}
+.workflow-card strong{font-size:clamp(24px,2.8vw,41px);line-height:1.2}
+.workflow-copy small,.workflow-action,.workflow-nav a{color:var(--pink)}
+.workflow-copy p,.workflow-detail p{margin:0;line-height:1.75;color:#d4e2dc}
+.workflow-action{font-weight:700;margin-top:6px}
+.workflow-external{display:inline-block;margin-top:18px;padding:10px 15px;background:var(--pink);color:var(--ink);border-radius:4px;font-weight:700;text-decoration:none}
+@media(max-width:760px){.workflow-section{padding-inline:6vw}.workflow-card{grid-template-columns:1fr}}
+
+
+.workflow-detail{max-width:1420px;padding-top:36px}
+#case-dialog .workflow-detail{width:100%;margin:0;padding:clamp(16px,3vw,36px)}
+.workflow-detail h2{font-size:clamp(23px,3vw,36px)}
+.workflow-detail h1,.workflow-detail .case-title{font-size:clamp(27px,4.2vw,61px);line-height:1.2;margin:0 0 14px}
+.workflow-result{margin:26px 0 32px}
+.workflow-result img{display:block;width:100%;height:auto;border-radius:5px}
+.workflow-result a{display:block}
+.workflow-result figcaption{margin-top:10px;color:#bdd4c9;font-size:14px}
+.workflow-comparison{max-width:480px}
+.workflow-comparison-stage{position:relative;isolation:isolate;border-radius:5px;overflow:hidden;--split:50%}
+.workflow-comparison-stage:focus-within{outline:2px solid var(--pink);outline-offset:4px}
+.workflow-comparison-stage .workflow-before{position:absolute;inset:0;clip-path:inset(0 calc(100% - var(--split)) 0 0)}
+.workflow-comparison-fit{aspect-ratio:735/1270;background:#0b1512}
+.workflow-comparison-fit img{height:100%;object-fit:contain;background:#0b1512}
+.workflow-comparison-divider{position:absolute;inset:0 auto 0 var(--split);width:2px;transform:translateX(-50%);background:var(--pink);pointer-events:none}
+.workflow-comparison-divider span{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:var(--pink);color:var(--ink);font-weight:700}
+.workflow-comparison-stage input{position:absolute;z-index:1;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize;touch-action:pan-y}
+.workflow-comparison-labels{display:flex;justify-content:space-between;gap:10px}
+.workflow-steps{padding:0;list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.workflow-steps li{background:#17241f;border-top:2px solid #4cae94;padding:20px}
+.workflow-steps strong{display:block;margin-bottom:8px;font-size:19px}
+.workflow-modes{grid-template-columns:repeat(2,minmax(0,1fr))}
+.workflow-case-pair{display:grid;grid-template-columns:minmax(0,var(--reference-ratio,.7194fr)) minmax(0,1.7778fr);gap:14px}
+.workflow-case-pair .workflow-result{margin:0}
+#image-reverse .workflow-case-pair{margin-top:16px}
+.lora-pair{max-width:1000px;grid-template-columns:minmax(0,.56fr) minmax(0,1fr);align-items:center;gap:clamp(14px,2.4vw,32px)}
+.lora-pair figcaption{font-weight:700}
+.lora-samples{display:grid;grid-template-columns:minmax(0,2fr) repeat(2,minmax(0,1fr));gap:20px;max-width:1050px;margin:26px 0 32px;align-items:start}
+.lora-samples .workflow-result{margin:0}
+.lora-samples .workflow-result:first-child{grid-row:span 2}
+@media(max-width:760px){.lora-samples{grid-template-columns:minmax(0,1fr)}.lora-samples .workflow-result:first-child{grid-row:auto}}
+@media(max-width:760px){.workflow-case-pair{grid-template-columns:minmax(0,1fr)}.workflow-case-pair .workflow-result:first-child{max-width:300px}}
+.workflow-detail .workflow-credit{margin-top:24px;color:#bdd4c9;font-size:14px}
+@media(max-width:760px){.workflow-steps{grid-template-columns:1fr}}
+
+</style>
+</head>
+<body>
+<header class="workflow-brand"><strong>刘宏亮</strong></header>
+<main class="workflow-section workflow-detail">
+
+  <h1>无畏契约角色画风 LoRA</h1>
+  <p>用提示词描述角色的外观、服装和装备，生成《无畏契约》画风的角色图。</p>
+  <div class="lora-samples">
+    <figure class="workflow-result">
+      <a href="portfolio-lora/valorant-tiger.webp" target="_blank" rel="noopener"><img src="portfolio-lora/valorant-tiger.webp" width="1080" height="1440" alt="橙色夹克角色与白虎的全身插画，采用硬边色块和深紫色背景"></a>
+      <figcaption>橙衣角色与白虎</figcaption>
+    </figure>
+    <figure class="workflow-result">
+      <a href="portfolio-lora/valorant-courier.webp" target="_blank" rel="noopener"><img src="portfolio-lora/valorant-courier.webp" width="1080" height="1440" alt="白发角色穿绿色夹克和红靴，手提装有信封的透明箱" loading="lazy"></a>
+      <figcaption>白发角色与信箱</figcaption>
+    </figure>
+    <figure class="workflow-result">
+      <a href="portfolio-lora/valorant-tailor.webp" target="_blank" rel="noopener"><img src="portfolio-lora/valorant-tailor.webp" width="1080" height="1440" alt="青绿色西装角色手持量尺和布样，身旁是棱面人台" loading="lazy"></a>
+      <figcaption>青衣角色与裁缝人台</figcaption>
+    </figure>
+    <figure class="workflow-result">
+      <a href="portfolio-lora/valorant-energy-case.webp" target="_blank" rel="noopener"><img src="portfolio-lora/valorant-energy-case.webp" width="768" height="1024" alt="红色夹克角色手提发出蓝光的透明箱" loading="lazy"></a>
+      <figcaption>红衣角色与蓝色能量箱</figcaption>
+    </figure>
+    <figure class="workflow-result">
+      <a href="portfolio-lora/valorant-flame-device.webp" target="_blank" rel="noopener"><img src="portfolio-lora/valorant-flame-device.webp" width="768" height="1024" alt="绿马甲角色身旁有一件橙色火焰装置" loading="lazy"></a>
+      <figcaption>绿衣角色与火焰装置</figcaption>
+    </figure>
+  </div>
+  <h2>训练信息</h2>
+  <p>底模 Krea-2-Turbo · 训练数据 31 张 · 权重版本 c1-st6000</p>
+  <a class="workflow-external" href="https://www.modelscope.cn/models/lhl1205/krea2_facetpaint_v2/summary?version=20261114070941" target="_blank" rel="noopener">在魔搭查看「硬边色块插画 V2」↗</a>
+
+<nav class="workflow-nav" aria-label="返回上一级"><a href="/#lora">← 返回LoRA 训练</a></nav>
+</main>
+<script>(function initializeComparisons(root) {
+    root.querySelectorAll('.workflow-comparison-stage').forEach(comparison => {
+      const splitControl = comparison.querySelector('input');
+      splitControl.addEventListener('input', () => {
+        comparison.style.setProperty('--split', splitControl.value + '%');
+      });
+      function moveSplit(event) {
+        const bounds = comparison.getBoundingClientRect();
+        splitControl.value = Math.round((event.clientX - bounds.left) / bounds.width * 100);
+        comparison.style.setProperty('--split', splitControl.value + '%');
+      }
+      splitControl.addEventListener('pointerdown', event => {
+        if (event.button !== 0) return;
+        event.preventDefault();
+        splitControl.focus({preventScroll:true});
+        splitControl.setPointerCapture(event.pointerId);
+        moveSplit(event);
+      });
+      splitControl.addEventListener('pointermove', event => {
+        if (splitControl.hasPointerCapture(event.pointerId)) moveSplit(event);
+      });
+    });
+})(document);</script>
+</body>
+</html>

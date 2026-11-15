@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>刘宏亮 · 图像作品集</title>
+<style>
+:root{--ink:#101a18;--pink:#78f3ca;--paper:#f4efdc;--line:#2a3934}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ink);color:var(--paper);font-family:"Microsoft YaHei",sans-serif}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:var(--pink);text-decoration:none}
+:focus-visible{outline:2px solid var(--pink);outline-offset:4px}
+.gallery-brand{max-width:1650px;margin:auto;padding:22px 5vw 0}
+.gallery-return{max-width:1650px;margin:auto;padding:0 5vw 32px;text-align:right}
+.work-gallery{max-width:1650px;margin:auto;padding:58px 5vw 35px;scroll-margin-top:15px}
+.work-gallery h2{font-size:clamp(30px,4vw,58px);margin:0 0 24px;letter-spacing:-.03em}
+.spotlight{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);grid-template-rows:repeat(3,clamp(92px,11vw,172px));gap:13px}
+.spot,.collection{position:relative;display:block;width:100%;overflow:hidden;padding:0;border:1px solid #38514a;border-radius:6px;background:#1b2522;text-align:left;isolation:isolate}
+.spot-main{grid-row:span 3}
+.spot img,.collection img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .32s ease}
+.spot-main{background:linear-gradient(135deg,#103463,#176bc5 72%);background-size:100% 100%}
+.spot-main img{width:58%;margin-left:auto}
+.spot:not(.spot-main) img{object-position:center 38%}
+.spot::after,.collection::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#090e0df5,transparent 68%);pointer-events:none}
+.spot-main::after{background:linear-gradient(90deg,#102e57 4%,#123e73 33%,transparent 65%),linear-gradient(0deg,#081424c9,transparent 52%)}
+.spot:not(.spot-main)::after{background:linear-gradient(90deg,#080e0ded,transparent 82%),linear-gradient(0deg,#080e0d70,transparent 70%)}
+.spot-caption{position:absolute;z-index:1;left:clamp(12px,2vw,30px);right:14px;bottom:clamp(12px,2vw,28px);display:grid;gap:5px}
+.spot-caption strong{font-size:clamp(17px,2vw,29px);line-height:1.2}
+.spot-main .spot-caption strong{font-size:clamp(26px,3.4vw,52px)}
+.spot-caption small{font-size:12px;color:#c9eadf}
+.spot:hover,.collection:hover{border-color:var(--pink)}
+.spot:hover img,.collection:hover img{transform:scale(1.04)}
+.gallery-heading{margin:68px 0 20px;display:flex;align-items:baseline;gap:14px}
+.gallery-heading h2{margin:0}.gallery-heading>span{color:#b8cbc5}
+.collection-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.collection{aspect-ratio:1.76}
+.collection img{object-position:center 40%}
+.portfolio-modal{width:min(96vw,1320px);height:min(91dvh,1060px);max-width:none;max-height:none;margin:auto;padding:0;border:1px solid #405852;border-radius:6px;background:#101a18;color:var(--paper);overflow:hidden}
+.portfolio-modal[open]{display:grid;grid-template-rows:minmax(0,1fr) auto}
+.portfolio-modal::backdrop,.image-viewer::backdrop{background:#060a09bf}
+html:has(.portfolio-modal[open],.image-viewer[open]){overflow:hidden}
+.portfolio-modal-content{overflow:auto;overscroll-behavior:contain}
+.collection-content{padding:clamp(16px,3vw,36px)}
+.portfolio-modal-actions{display:flex;justify-content:flex-end;margin:0;padding:10px clamp(16px,3vw,36px);border-top:1px solid #405852;background:#14211d}
+.portfolio-modal-actions button,.collection-back{display:inline-block;padding:9px 13px;border:1px solid #405852;background:#1b2925;color:var(--pink)}
+.portfolio-modal-actions button:hover,.collection-back:hover{border-color:var(--pink)}
+.collection-panel h4{margin:20px 0 12px;font-size:15px;color:#b8cbc5}
+.collection-images,.collection-row{display:grid;gap:12px}
+.collection-lead{margin-bottom:12px}
+.collection-row button{min-width:0;background:#101817;border:0;border-radius:4px;padding:0;overflow:hidden}
+.collection-row img{width:100%;height:100%;object-fit:cover;display:block}
+.image-viewer{background:#101a18;color:var(--paper);border:1px solid #405852;padding:16px;max-width:min(97vw,1320px);width:100%;max-height:96dvh}
+.image-viewer header,.image-viewer footer{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.image-viewer header p{margin:0 0 8px}
+.image-viewer footer{flex-wrap:wrap;margin-top:8px}
+.image-viewer footer form{margin-inline-start:auto}
+.image-viewer button{background:#24342e;padding:8px 12px;border:1px solid #405852}
+.viewer-stage img{display:block;margin:auto;max-width:100%;height:min(76dvh,calc(96dvh - 130px));object-fit:contain}
+@media(max-width:700px){
+  .work-gallery{padding-inline:6vw}
+  .spotlight{grid-template-columns:1fr;grid-template-rows:auto repeat(3,110px)}
+  .spot-main{grid-row:auto;aspect-ratio:1.45}
+  .collection-images,.collection-row{gap:6px}
+  .collection-lead{margin-bottom:6px}
+  .collection{aspect-ratio:1.34}
+  .spot-caption strong{font-size:16px}
+  .gallery-heading{margin-top:46px}
+}
+@media(prefers-reduced-motion:reduce){.spot img,.collection img{transition:none}}
+</style>
+<body>
+<header class="gallery-brand"><strong>刘宏亮</strong></header>
+<main>
+<section class="work-gallery" id="works" aria-labelledby="work-title">
+ <div class="gallery-overview">
+  <h2 id="work-title">精选图像</h2>
+  <div class="spotlight">
+    <button type="button" class="spot spot-main" data-image="16"><img src="portfolio-images/16.webp" alt="捷风 · Jett" style="object-position:50% 36%" loading="lazy" decoding="async"><span class="spot-caption"><small>动漫与游戏美术</small><strong>捷风 · Jett</strong></span></button><button type="button" class="spot " data-image="59"><img src="portfolio-images/59.webp" alt="火场中的剑客" style="object-position:55% 50%" loading="lazy" decoding="async"><span class="spot-caption"><small>写实影像（人像 · 时装 · 纪实 · 剧照）</small><strong>火场中的剑客</strong></span></button><button type="button" class="spot " data-image="107"><img src="portfolio-images/107.webp" alt="巨兽与旅人" style="object-position:48% 42%" loading="lazy" decoding="async"><span class="spot-caption"><small>CG 与奇幻概念</small><strong>巨兽与旅人</strong></span></button><button type="button" class="spot " data-image="117"><img src="portfolio-images/117.webp" alt="粉色漫画海报" style="object-position:55% 31%" loading="lazy" decoding="async"><span class="spot-caption"><small>插画 · 版画与平面</small><strong>粉色漫画海报</strong></span></button>
+  </div>
+  <div class="gallery-heading"><h2>图像作品</h2><span>48 张</span></div>
+  <div class="collection-grid">
+    <button type="button" class="collection" data-group="0" aria-haspopup="dialog" aria-controls="collection-panel"><img src="portfolio-images/32.webp" alt="" style="object-position:50% 38%" loading="lazy" decoding="async"><span class="spot-caption"><strong>动漫与游戏美术</strong><small>12 张 · 查看图集 ↗</small></span></button><button type="button" class="collection" data-group="1" aria-haspopup="dialog" aria-controls="collection-panel"><img src="portfolio-images/64.webp" alt="" style="object-position:50% 50%" loading="lazy" decoding="async"><span class="spot-caption"><strong>写实影像</strong><small>17 张 · 查看图集 ↗</small></span></button><button type="button" class="collection" data-group="2" aria-haspopup="dialog" aria-controls="collection-panel"><img src="portfolio-images/105.webp" alt="" style="object-position:50% 50%" loading="lazy" decoding="async"><span class="spot-caption"><strong>CG 与奇幻概念</strong><small>11 张 · 查看图集 ↗</small></span></button><button type="button" class="collection" data-group="3" aria-haspopup="dialog" aria-controls="collection-panel"><img src="portfolio-images/112.webp" alt="" style="object-position:50% 50%" loading="lazy" decoding="async"><span class="spot-caption"><strong>插画 · 版画与平面</strong><small>8 张 · 查看图集 ↗</small></span></button>
+  </div>
+ </div>
+  <dialog class="collection-panel portfolio-modal" id="collection-panel" aria-labelledby="collection-title">
+    <div class="portfolio-modal-content collection-content">
+      <h2 id="collection-title" tabindex="-1" autofocus></h2><div class="collection-items"></div>
+    </div>
+    <form method="dialog" class="portfolio-modal-actions"><button class="collection-back" aria-label="关闭图集">关闭 ×</button></form>
+  </dialog>
+  <dialog class="image-viewer" aria-labelledby="viewer-title">
+    <header><p id="viewer-title"></p></header>
+    <div class="viewer-stage"><img alt=""></div>
+    <footer><button type="button" class="previous">← 上一张</button><span class="viewer-count" aria-live="polite"></span><button type="button" class="next">下一张 →</button><form method="dialog"><button aria-label="关闭大图">关闭 ×</button></form></footer>
+  </dialog>
+</section></main>
+<nav class="gallery-return" aria-label="返回上一级"><a class="collection-back" href="/#works">← 返回首页</a></nav>
+<script>const galleryData =
+{"groups":[{"name":"动漫与游戏美术","groups":[0],"cover":32,"lead":32},{"name":"写实影像","groups":[1],"cover":64,"lead":59},{"name":"CG 与奇幻概念","groups":[2],"cover":105,"lead":107},{"name":"插画 · 版画与平面","groups":[3],"cover":112,"lead":117}],"entries":[{"id":9,"category":0,"width":941,"height":1672,"caption":"动漫与游戏美术","source":"portfolio-images/9.webp"},{"id":11,"category":0,"width":1088,"height":1936,"caption":"动漫与游戏美术","source":"portfolio-images/11.webp"},{"id":13,"category":0,"width":3368,"height":6000,"caption":"动漫与游戏美术","source":"portfolio-images/13.webp"},{"id":16,"category":0,"width":3368,"height":6000,"caption":"动漫与游戏美术","source":"portfolio-images/16.webp"},{"id":18,"category":0,"width":1088,"height":1936,"caption":"动漫与游戏美术","source":"portfolio-images/18.webp"},{"id":20,"category":0,"width":1088,"height":1936,"caption":"动漫与游戏美术","source":"portfolio-images/20.webp"},{"id":23,"category":0,"width":1088,"height":1936,"caption":"动漫与游戏美术","source":"portfolio-images/23.webp"},{"id":25,"category":0,"width":1088,"height":1936,"caption":"动漫与游戏美术","source":"portfolio-images/25.webp"},{"id":27,"category":0,"width":1088,"height":1936,"caption":"动漫与游戏美术","source":"portfolio-images/27.webp"},{"id":30,"category":0,"width":6000,"height":3368,"caption":"动漫与游戏美术","source":"portfolio-images/30.webp"},{"id":32,"category":0,"width":6000,"height":3368,"caption":"动漫与游戏美术","source":"portfolio-images/32.webp"},{"id":1001,"category":0,"width":899,"height":1600,"caption":"动漫与游戏美术","source":"portfolio-images/1001.webp"},{"id":37,"category":1,"width":944,"height":1680,"caption":"写实影像（人像 · 时装 · 纪实 · 剧照）","source":"portfolio-images/37.webp"},{"id":39,"category":1,"width":864,"height":1232,"caption":"写实影像（人像 · 时装 · 纪实 · 剧照）","source":"portfolio-images/39.webp"},{"id":41,"category":1,"width":1122,"height":1402,"caption":"写实影像（人像 · 时装 · 纪实 · 剧照）","source":"portfolio-images/41.webp"},{"id":44,"category":1,"width":4000,"height":2245,"caption":"写实影像（人像 · 时装 · 纪实 · 剧照）","source":"portfolio-images/44.webp"},{"id":46,"category":1,"width":1936,"height":1088,"caption":"写实影像（人像 · 时装 · 纪实 · 剧照）","source":"portfolio-images/46.webp"},{"id":49,"category":1,"width":1936,"height":1088,"caption":"写实影像（人像 · 时装 · 纪实 · 剧照）","source":"portfolio-images/49.webp"},{"id":51,"category":1,"width":1936,"height":1088,"caption":"写实影像（人像 · 时装 · 纪实 · 剧照）","source":"portfolio-images/51.webp"},{"id":54,"category":1,"width":3360,"height":1888,"caption":"写实影像（人像 · 时装 · 纪实 · 剧照）","source":"portfolio-images/54.webp"},{"id":56,"category":1,"width":1672,"height":941,"caption":"写实影像（人像 · 时装 · 纪实 · 剧照）","source":"portfolio-images/56.webp"},{"id":59,"category":1,"width":1456,"height":816,"caption":"写实影像（人像 · 时装 · 纪实 · 剧照）","source":"portfolio-images/59.webp"},{"id":61,"category":1,"width":1456,"height":816,"caption":"写实影像（人像 · 时装 · 纪实 · 剧照）","source":"portfolio-images/61.webp"},{"id":64,"category":1,"width":1456,"height":816,"caption":"写实影像（人像 · 时装 · 纪实 · 剧照）","source":"portfolio-images/64.webp"},{"id":71,"category":1,"width":1456,"height":816,"caption":"写实影像（人像 · 时装 · 纪实 · 剧照）","source":"portfolio-images/71.webp"},{"id":74,"category":1,"width":1232,"height":928,"caption":"写实影像（人像 · 时装 · 纪实 · 剧照）","source":"portfolio-images/74.webp"},{"id":76,"category":1,"width":1536,"height":1024,"caption":"写实影像（人像 · 时装 · 纪实 · 剧照）","source":"portfolio-images/76.webp"},{"id":79,"category":1,"width":3136,"height":1344,"caption":"写实影像（人像 · 时装 · 纪实 · 剧照）","source":"portfolio-images/79.webp"},{"id":81,"category":1,"width":6272,"height":2688,"caption":"写实影像（人像 · 时装 · 纪实 · 剧照）","source":"portfolio-images/81.webp"},{"id":86,"category":2,"width":928,"height":1232,"caption":"CG 与奇幻概念","source":"portfolio-images/86.webp"},{"id":88,"category":2,"width":944,"height":1680,"caption":"CG 与奇幻概念","source":"portfolio-images/88.webp"},{"id":90,"category":2,"width":2245,"height":4000,"caption":"CG 与奇幻概念","source":"portfolio-images/90.webp"},{"id":92,"category":2,"width":2245,"height":4000,"caption":"CG 与奇幻概念","source":"portfolio-images/92.webp"},{"id":95,"category":2,"width":1456,"height":816,"caption":"CG 与奇幻概念","source":"portfolio-images/95.webp"},{"id":97,"category":2,"width":1936,"height":1088,"caption":"CG 与奇幻概念","source":"portfolio-images/97.webp"},{"id":100,"category":2,"width":1936,"height":1088,"caption":"CG 与奇幻概念","source":"portfolio-images/100.webp"},{"id":102,"category":2,"width":1936,"height":1088,"caption":"CG 与奇幻概念","source":"portfolio-images/102.webp"},{"id":105,"category":2,"width":1936,"height":1088,"caption":"CG 与奇幻概念","source":"portfolio-images/105.webp"},{"id":107,"category":2,"width":6000,"height":3368,"caption":"CG 与奇幻概念","source":"portfolio-images/107.webp"},{"id":1002,"category":2,"width":899,"height":1600,"caption":"CG 与奇幻概念","source":"portfolio-images/1002.webp"},{"id":112,"category":3,"width":1376,"height":768,"caption":"插画 · 版画与平面","source":"portfolio-images/112.webp"},{"id":114,"category":3,"width":6000,"height":3368,"caption":"插画 · 版画与平面","source":"portfolio-images/114.webp"},{"id":117,"category":3,"width":1680,"height":1248,"caption":"插画 · 版画与平面","source":"portfolio-images/117.webp"},{"id":119,"category":3,"width":1254,"height":1254,"caption":"插画 · 版画与平面","source":"portfolio-images/119.webp"},{"id":122,"category":3,"width":1059,"height":1485,"caption":"插画 · 版画与平面","source":"portfolio-images/122.webp"},{"id":124,"category":3,"width":1024,"height":1536,"caption":"插画 · 版画与平面","source":"portfolio-images/124.webp"},{"id":126,"category":3,"width":941,"height":1672,"caption":"插画 · 版画与平面","source":"portfolio-images/126.webp"},{"id":128,"category":3,"width":941,"height":1672,"caption":"插画 · 版画与平面","source":"portfolio-images/128.webp"}],"categoryNames":["动漫与游戏美术","写实影像（人像 · 时装 · 纪实 · 剧照）","CG 与奇幻概念","插画 · 版画与平面"]}
+;
+const viewer = document.querySelector('.image-viewer');
+const panel = document.querySelector('.collection-panel');
+const collectionButtons = document.querySelectorAll('.collection');
+const entriesById = new Map(galleryData.entries.map(entry => [entry.id,entry]));
+let sequence = galleryData.entries;
+let index = 0;
+
+function showImage() {
+  const {source,caption} = sequence[index];
+  const image = viewer.querySelector('img');
+  image.src = source;
+  image.alt = caption;
+  viewer.querySelector('#viewer-title').textContent = caption;
+  viewer.querySelector('.viewer-count').textContent = (index + 1) + ' / ' + sequence.length;
+}
+function openImage(id, list) {
+  sequence = list;
+  index = sequence.findIndex(entry => entry.id === id);
+  showImage();
+  viewer.showModal();
+}
+function step(amount) {
+  index = (index + amount + sequence.length) % sequence.length;
+  showImage();
+}
+document.querySelectorAll('.spot').forEach(button => button.addEventListener('click', () => {
+  const entry = entriesById.get(Number(button.dataset.image));
+  openImage(entry.id,galleryData.entries.filter(item => item.category === entry.category));
+}));
+
+function arrangeRows(grid) {
+  const width = grid.clientWidth;
+  if (!width) return;
+  const gap = parseFloat(getComputedStyle(grid).columnGap);
+  const targetHeight = Math.min(392, Math.max(160, width * .34));
+  const tiles = [...grid.querySelectorAll('button')];
+  const ratios = tiles.map(tile => tile.firstElementChild.width / tile.firstElementChild.height);
+  const cost = Array(tiles.length + 1).fill(Infinity);
+  const lengths = [];
+  cost[tiles.length] = 0;
+
+  for (let start = tiles.length - 1; start >= 0; start--) {
+    let ratioSum = 0;
+    for (let end = start; end < Math.min(start + 6, tiles.length); end++) {
+      ratioSum += ratios[end];
+      const count = end - start + 1;
+      const height = (width - gap * (count - 1)) / ratioSum;
+      const singletonPenalty = count === 1 && tiles.length > 1 ? .55 : 0;
+      const total = Math.log(height / targetHeight) ** 2 + singletonPenalty + cost[end + 1];
+      if (total < cost[start]) {
+        cost[start] = total;
+        lengths[start] = count;
+      }
+    }
+  }
+
+  const rows = [];
+  for (let start = 0; start < tiles.length; start += lengths[start]) {
+    rows.push({start, end:start + lengths[start]});
+  }
+  const visibleRows = [...grid.children];
+  if (visibleRows.every(row => row.classList.contains('collection-row')) &&
+      visibleRows.length === rows.length &&
+      rows.every(({start,end}, i) => visibleRows[i].childElementCount === end - start)) return;
+
+  const focused = grid.contains(document.activeElement) ? document.activeElement : null;
+  const fragment = document.createDocumentFragment();
+  for (const {start,end} of rows) {
+    const row = document.createElement('div');
+    row.className = 'collection-row';
+    row.style.gridTemplateColumns = ratios.slice(start,end).map(ratio => `minmax(0,${ratio}fr)`).join(' ');
+    row.append(...tiles.slice(start,end));
+    fragment.append(row);
+  }
+  grid.replaceChildren(fragment);
+  focused?.focus({preventScroll:true});
+}
+const collectionResize = new ResizeObserver(() => {
+  panel.querySelectorAll('.collection-images').forEach(arrangeRows);
+});
+collectionResize.observe(panel);
+
+const collectionTitle = panel.querySelector('#collection-title');
+const collectionContent = panel.querySelector('.collection-content');
+const collectionItems = panel.querySelector('.collection-items');
+let openedCollection;
+
+panel.addEventListener('close', () => {
+  openedCollection?.focus({preventScroll:true});
+});
+
+collectionButtons.forEach(button => button.addEventListener('click', () => {
+  if (panel.open) return;
+  const group = galleryData.groups[button.dataset.group];
+  openedCollection = button;
+  collectionTitle.textContent = group.name;
+  collectionItems.replaceChildren();
+  const entries = galleryData.entries.filter(item => group.groups.includes(item.category));
+  const lead = entries.find(item => item.id === group.lead);
+  const list = lead ? [lead,...entries.filter(item => item !== lead)] : entries;
+  group.groups.forEach(category => {
+    if (group.groups.length > 1) {
+      const heading = document.createElement('h4');
+      heading.textContent = galleryData.categoryNames[category];
+      collectionItems.append(heading);
+    }
+    const grid = document.createElement('div');
+    grid.className = 'collection-images';
+    for (const entry of list.filter(item => item.category === category)) {
+      const tile = document.createElement('button');
+      tile.type = 'button';
+      tile.setAttribute('aria-label','查看' + entry.caption + '大图');
+      const image = new Image();
+      image.alt = '';
+      image.src = entry.source;
+      image.width = entry.width;
+      image.height = entry.height;
+      image.loading = 'lazy';
+      tile.append(image);
+      tile.addEventListener('click', () => openImage(entry.id,list));
+      if (entry === lead) {
+        const leadRow = document.createElement('div');
+        leadRow.className = 'collection-row collection-lead';
+        leadRow.append(tile);
+        collectionItems.append(leadRow);
+      } else {
+        grid.append(tile);
+      }
+    }
+    collectionItems.append(grid);
+  });
+  panel.showModal();
+  collectionContent.scrollTop = 0;
+  collectionItems.querySelectorAll('.collection-images').forEach(arrangeRows);
+}));
+viewer.querySelector('.previous').addEventListener('click', () => step(-1));
+viewer.querySelector('.next').addEventListener('click', () => step(1));
+viewer.addEventListener('keydown', event => {
+  if (event.key === 'ArrowLeft') step(-1);
+  if (event.key === 'ArrowRight') step(1);
+});
+</script>
+</body>
+</html>

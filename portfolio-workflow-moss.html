@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MOSS 全自动生图与图片反推 · 刘宏亮</title>
+<style>
+:root{--ink:#101a18;--paper:#f4efdc;--pink:#78f3ca}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ink);color:var(--paper);font-family:"Microsoft YaHei",sans-serif}
+a:focus-visible{outline:2px solid var(--pink);outline-offset:4px}
+.workflow-brand{max-width:1650px;margin:auto;padding:24px 5vw 0}
+.workflow-nav{margin-top:32px;text-align:right}
+.workflow-nav a{display:inline-block;padding:9px 13px;border:1px solid #405852;background:#1b2925;text-decoration:none}
+.workflow-nav a:hover{border-color:var(--pink)}
+
+.workflow-section{max-width:1650px;margin:auto;padding:56px 5vw;color:var(--paper)}
+.workflow-section h2{font-size:clamp(30px,4vw,58px);margin:0 0 24px;line-height:1.1}
+.workflow-card{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);background:#17241f;border:1px solid #38514a;border-radius:6px;overflow:hidden;text-decoration:none;color:inherit}
+a.workflow-card:hover,.workflow-card:focus-within{border-color:var(--pink)}
+.workflow-card + .workflow-card{margin-top:16px}
+.workflow-card-edit{grid-template-columns:1fr;border-left:3px solid var(--pink)}
+.workflow-card img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+.workflow-card-featured{grid-template-columns:minmax(0,min(44%,520px)) minmax(0,1fr)}
+.workflow-card-featured img{height:auto;align-self:center}
+.lora-card .lora-cover{position:relative;background:radial-gradient(ellipse at center,#fff 32%,#f3e0eb 100%);aspect-ratio:16/9;overflow:hidden}
+.lora-card .lora-cover img{position:absolute;inset:0;height:100%;aspect-ratio:auto;object-fit:contain;mix-blend-mode:multiply}
+.lora-card .lora-cover-dark{background:radial-gradient(ellipse at center,#25243d,#10111f 80%)}
+.lora-card .lora-cover-dark img{mix-blend-mode:normal}
+.workflow-copy{padding:clamp(22px,3.4vw,55px);display:grid;align-content:center;gap:14px}
+.workflow-card strong{font-size:clamp(24px,2.8vw,41px);line-height:1.2}
+.workflow-copy small,.workflow-action,.workflow-nav a{color:var(--pink)}
+.workflow-copy p,.workflow-detail p{margin:0;line-height:1.75;color:#d4e2dc}
+.workflow-action{font-weight:700;margin-top:6px}
+.workflow-external{display:inline-block;margin-top:18px;padding:10px 15px;background:var(--pink);color:var(--ink);border-radius:4px;font-weight:700;text-decoration:none}
+@media(max-width:760px){.workflow-section{padding-inline:6vw}.workflow-card{grid-template-columns:1fr}}
+
+
+.workflow-detail{max-width:1420px;padding-top:36px}
+#case-dialog .workflow-detail{width:100%;margin:0;padding:clamp(16px,3vw,36px)}
+.workflow-detail h2{font-size:clamp(23px,3vw,36px)}
+.workflow-detail h1,.workflow-detail .case-title{font-size:clamp(27px,4.2vw,61px);line-height:1.2;margin:0 0 14px}
+.workflow-result{margin:26px 0 32px}
+.workflow-result img{display:block;width:100%;height:auto;border-radius:5px}
+.workflow-result a{display:block}
+.workflow-result figcaption{margin-top:10px;color:#bdd4c9;font-size:14px}
+.workflow-comparison{max-width:480px}
+.workflow-comparison-stage{position:relative;isolation:isolate;border-radius:5px;overflow:hidden;--split:50%}
+.workflow-comparison-stage:focus-within{outline:2px solid var(--pink);outline-offset:4px}
+.workflow-comparison-stage .workflow-before{position:absolute;inset:0;clip-path:inset(0 calc(100% - var(--split)) 0 0)}
+.workflow-comparison-fit{aspect-ratio:735/1270;background:#0b1512}
+.workflow-comparison-fit img{height:100%;object-fit:contain;background:#0b1512}
+.workflow-comparison-divider{position:absolute;inset:0 auto 0 var(--split);width:2px;transform:translateX(-50%);background:var(--pink);pointer-events:none}
+.workflow-comparison-divider span{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:var(--pink);color:var(--ink);font-weight:700}
+.workflow-comparison-stage input{position:absolute;z-index:1;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize;touch-action:pan-y}
+.workflow-comparison-labels{display:flex;justify-content:space-between;gap:10px}
+.workflow-steps{padding:0;list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.workflow-steps li{background:#17241f;border-top:2px solid #4cae94;padding:20px}
+.workflow-steps strong{display:block;margin-bottom:8px;font-size:19px}
+.workflow-modes{grid-template-columns:repeat(2,minmax(0,1fr))}
+.workflow-case-pair{display:grid;grid-template-columns:minmax(0,var(--reference-ratio,.7194fr)) minmax(0,1.7778fr);gap:14px}
+.workflow-case-pair .workflow-result{margin:0}
+#image-reverse .workflow-case-pair{margin-top:16px}
+.lora-pair{max-width:1000px;grid-template-columns:minmax(0,.56fr) minmax(0,1fr);align-items:center;gap:clamp(14px,2.4vw,32px)}
+.lora-pair figcaption{font-weight:700}
+.lora-samples{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:20px;max-width:1050px;margin:26px 0 32px;align-items:start}
+.lora-samples .workflow-result{margin:0}
+.lora-samples .workflow-result:first-child{grid-row:span 2}
+@media(max-width:760px){.lora-samples{grid-template-columns:minmax(0,1fr)}.lora-samples .workflow-result:first-child{grid-row:auto}}
+@media(max-width:760px){.workflow-case-pair{grid-template-columns:minmax(0,1fr)}.workflow-case-pair .workflow-result:first-child{max-width:300px}}
+.workflow-detail .workflow-credit{margin-top:24px;color:#bdd4c9;font-size:14px}
+@media(max-width:760px){.workflow-steps{grid-template-columns:1fr}}
+
+</style>
+</head>
+<body>
+<header class="workflow-brand"><strong>刘宏亮</strong></header>
+<main class="workflow-section workflow-detail">
+
+  <h1>MOSS 全自动生图与图片反推</h1>
+  <p>涵盖文生图、图生图、洗图、改图和图片反推，可用 SeedVR2 放大成图。</p>
+  <a class="workflow-external" href="https://www.runninghub.cn/post/2117894330072526849" target="_blank" rel="noopener">在 RunningHub 查看 MOSS 全自动生图 ↗</a>
+  
+  <h2 style="margin-top:30px">案例 · 自动洗图</h2>
+  <figure class="workflow-result workflow-comparison">
+    <div class="workflow-comparison-stage workflow-comparison-fit">
+      <img src="portfolio-workflows/moss-wash-after.webp" width="1088" height="1936" alt="MOSS 重新生成的白发角色图像">
+      <img class="workflow-before" src="portfolio-workflows/moss-wash-before.webp" width="735" height="1270" alt="白发角色与蓝天背景的参考图">
+      <div class="workflow-comparison-divider" aria-hidden="true"><span>↔</span></div>
+      <input type="range" min="0" max="100" value="50" aria-label="自动洗图结果，调整原图显示比例">
+    </div>
+    <figcaption class="workflow-comparison-labels"><span>原图</span><span>自动洗图结果</span></figcaption>
+  </figure>
+
+  <p>只需上传参考图。工作流自动提取画面信息、扩写提示词并生成新图。拖动分隔线，可对比人物姿势、取景和服装细节。</p>
+  <h2 style="margin-top:30px">案例 · 漫画洗图</h2>
+  <div class="workflow-case-pair" style="--reference-ratio:.495833fr">
+    <figure class="workflow-result">
+      <a href="portfolio-workflows/moss-manga-reference.webp" target="_blank" rel="noopener">
+        <img src="portfolio-workflows/moss-manga-reference.webp" width="595" height="1200" alt="竖幅参考漫画，两名角色被粉色泡泡环绕" loading="lazy">
+      </a>
+      <figcaption>参考原图</figcaption>
+    </figure>
+    <figure class="workflow-result">
+      <a href="portfolio-workflows/moss-manga-result.webp" target="_blank" rel="noopener">
+        <img src="portfolio-workflows/moss-manga-result.webp" width="3840" height="2160" alt="洗图生成的横幅漫画，粉色泡泡向画面两侧展开" loading="lazy">
+      </a>
+      <figcaption>反推生成结果</figcaption>
+    </figure>
+  </div>
+  <h2 style="margin-top:30px">四种用法</h2>
+  <ul class="workflow-steps workflow-modes">
+    <li><strong>文生图</strong><p>输入一句创意描述，自动补充主体、构图和光线等细节，再交给 MOSS 生成。</p></li>
+    <li><strong>图生图</strong><p>上传参考图，让工作流提取主体、构图和色调等视觉信息，再生成新图。</p></li>
+    <li><strong>洗图</strong><p>只需上传参考图，工作流自动生成同方向的画面变体。</p></li>
+    <li><strong>改图</strong><p>上传参考图并说明要改的内容，比如改服装、环境或光线，让模型按修改后的提示词重新生成画面。</p></li>
+  </ul>
+  <h2 style="margin-top:30px">生成流程</h2>
+  <p>参考图先进入提示词扩写环节，MOSS 根据扩写后的提示词生成整张图。成图可继续用 SeedVR2 放大，再对比放大前后的细节。</p>
+  <p class="workflow-credit">配置内署名 · NicknickAI</p>
+  <section id="image-reverse" aria-labelledby="image-reverse-title">
+  <h2 id="image-reverse-title" style="margin-top:30px">案例 · 骑士线稿反推</h2>
+  <p>上传参考图，提取主体、构图和光色，生成可预览和复用的提示词。</p>
+  <div class="workflow-case-pair">
+    <figure class="workflow-result">
+      <a href="portfolio-workflows/universal-knight-reference.webp" target="_blank" rel="noopener">
+        <img src="portfolio-workflows/universal-knight-reference.webp" width="564" height="784" alt="竖幅参考图，持长枪的骑士与扬蹄战马">
+      </a>
+      <figcaption>参考原图</figcaption>
+    </figure>
+    <figure class="workflow-result">
+      <a href="portfolio-workflows/universal-knight-result.webp" target="_blank" rel="noopener">
+        <img src="portfolio-workflows/universal-knight-result.webp" width="3840" height="2160" alt="反推后生成的横幅骑士线稿，画面两侧留白">
+      </a>
+      <figcaption>反推提示词生成的结果</figcaption>
+    </figure>
+  </div>
+  <h3>从参考图到提示词</h3>
+  <ol class="workflow-steps">
+    <li><strong>上传参考图</strong><p>选择一张想拆解的图，也可以补充文字，说明希望关注的画面特征。</p></li>
+    <li><strong>预览反推提示词</strong><p>工作流把参考图中的主体、构图、光线和色调整理成文字，在节点中预览提示词。</p></li>
+    <li><strong>用提示词生成新图</strong><p>反推结果可接入 MOSS SFT 生图，也可以复制后继续修改和复用。</p></li>
+  </ol>
+  <a class="workflow-external" href="https://www.runninghub.cn/post/2119471789838520322" target="_blank" rel="noopener">在 RunningHub 查看全能生图王 ↗</a>
+  </section>
+
+<nav class="workflow-nav" aria-label="返回上一级"><a href="/#workflows">← 返回工作流</a></nav>
+</main>
+<script>(function initializeComparisons(root) {
+    root.querySelectorAll('.workflow-comparison-stage').forEach(comparison => {
+      const splitControl = comparison.querySelector('input');
+      splitControl.addEventListener('input', () => {
+        comparison.style.setProperty('--split', splitControl.value + '%');
+      });
+      function moveSplit(event) {
+        const bounds = comparison.getBoundingClientRect();
+        splitControl.value = Math.round((event.clientX - bounds.left) / bounds.width * 100);
+        comparison.style.setProperty('--split', splitControl.value + '%');
+      }
+      splitControl.addEventListener('pointerdown', event => {
+        if (event.button !== 0) return;
+        event.preventDefault();
+        splitControl.focus({preventScroll:true});
+        splitControl.setPointerCapture(event.pointerId);
+        moveSplit(event);
+      });
+      splitControl.addEventListener('pointermove', event => {
+        if (splitControl.hasPointerCapture(event.pointerId)) moveSplit(event);
+      });
+    });
+})(document);</script>
+</body>
+</html>

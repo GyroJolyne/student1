@@ -1,0 +1,112 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>刘宏亮 · 视频作品</title><style>
+:root{--paper:#f4efdc;--pink:#78f3ca}*{box-sizing:border-box}body{background:#101a18;color:var(--paper);margin:0;font-family:"Microsoft YaHei",sans-serif}a{color:var(--pink);text-decoration:none}a:focus-visible,button:focus-visible{outline:2px solid var(--pink);outline-offset:3px}
+.video-brand,.video-return{max-width:1650px;margin:auto;padding-inline:5vw}
+.video-brand{padding-top:22px}
+.video-return{padding-bottom:32px;text-align:right}
+.video-return a{display:inline-block;padding:9px 13px;border:1px solid #405852;background:#1b2925}
+.video-return a:hover{border-color:var(--pink)}
+.video-section{max-width:1650px;margin:auto;padding:56px 5vw}
+.video-section h2{margin:0 0 24px;font-size:clamp(30px,4vw,58px)}
+.video-grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(0,1fr);gap:20px;align-items:stretch}
+.video-feature,.video-option{position:relative;border:1px solid #38514a;background:#172420;color:inherit;font:inherit;cursor:pointer;text-align:left;border-radius:6px;overflow:hidden}
+.video-feature{padding:0;aspect-ratio:16/9;isolation:isolate}
+.video-feature>img,.video-teaser{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.video-teaser{display:none}
+.video-teaser.playing{display:block}
+.video-feature::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#080d0cf5,transparent 72%);pointer-events:none}
+.video-feature-copy{position:absolute;bottom:5%;left:4%;z-index:1;display:grid;gap:6px}
+.video-feature-copy strong{font-size:clamp(23px,3.3vw,51px)}
+.video-feature-copy small,.video-option small{color:#c7ddd5}
+.video-play{position:absolute;z-index:1;top:45%;left:50%;transform:translate(-50%,-50%);display:grid;place-items:center;background:#0b1815bd;color:var(--pink);width:clamp(46px,6vw,86px);aspect-ratio:1;border:1px solid var(--pink);border-radius:50%;font-size:clamp(15px,2.4vw,33px)}
+.video-options{display:grid;grid-template-rows:repeat(4,1fr);gap:10px}
+.video-option{display:grid;grid-template-columns:34% minmax(0,1fr);align-items:center;gap:12px;padding:0 12px 0 0;min-height:60px}
+.video-option img{width:100%;height:100%;max-height:110px;object-fit:cover}
+.video-option>span{display:grid;gap:4px}
+.video-option strong{font-size:clamp(13px,1.45vw,21px)}
+.video-option[aria-pressed=true],.video-option:hover,.video-feature:hover{border-color:var(--pink)}
+.video-dialog{background:#101a18;color:var(--paper);border:1px solid #405852;padding:14px;width:min(96vw,1160px);max-height:96dvh}
+.video-dialog::backdrop{background:#060a09ec}
+html:has(.video-dialog[open]){overflow:hidden}
+.video-dialog header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:9px}
+.video-dialog-actions{display:flex;justify-content:flex-end;margin-top:10px}
+.video-dialog p{margin:0;font-weight:700}
+.video-dialog button{background:#24342e;padding:7px 10px;border:1px solid #405852;color:inherit;cursor:pointer}
+.video-dialog video{display:block;width:100%;max-height:calc(96dvh - 105px);background:#080e0c;object-fit:contain}
+@media(max-width:760px){.video-section{padding-inline:6vw}.video-grid{grid-template-columns:1fr;gap:12px}.video-options{grid-template:repeat(2,1fr)/repeat(2,minmax(0,1fr));gap:8px}.video-option{grid-template-columns:1fr;padding:0}.video-option img{height:auto;aspect-ratio:16/9}.video-option>span{padding:0 8px 8px}.video-option small{font-size:11px}}
+.video-dialog.portrait{width:min(96vw,calc(79dvh * .5625 + 30px));min-width:min(280px,96vw)}
+</style><body><header class="video-brand"><strong>刘宏亮</strong></header><main>
+<section class="video-section" id="videos" aria-labelledby="video-title">
+  <h2 id="video-title">视频作品</h2>
+  <div class="video-grid">
+    <button type="button" class="video-feature" aria-label="播放 20秒PV">
+      <img src="portfolio-videos/pv.webp" alt="" loading="lazy">
+      <video class="video-teaser" muted playsinline preload="none" aria-hidden="true"></video>
+      <span class="video-play" aria-hidden="true">▶</span>
+      <span class="video-feature-copy"><small>叙事短片 · 0:20</small><strong>20秒PV</strong></span>
+    </button>
+    <div class="video-options" role="group" aria-label="选择视频">
+      <button type="button" class="video-option" aria-pressed="true"><img src="portfolio-videos/pv.webp" alt="" loading="lazy"><span><strong>20秒PV</strong><small>叙事短片 · 0:20</small></span></button><button type="button" class="video-option" aria-pressed="false"><img src="portfolio-videos/sneaker.webp" alt="" loading="lazy"><span><strong>运动鞋 CG TVC</strong><small>产品广告 · 0:30</small></span></button><button type="button" class="video-option" aria-pressed="false"><img src="portfolio-videos/zowie.webp" alt="" loading="lazy"><span><strong>卓威 ZOWIE 鼠标 CG 广告</strong><small>产品广告 · 0:15</small></span></button><button type="button" class="video-option" aria-pressed="false"><img src="portfolio-videos/outfit.webp" alt="" loading="lazy"><span><strong>换装视频</strong><small>角色视觉 · 0:15</small></span></button>
+    </div>
+  </div>
+  <dialog class="video-dialog" aria-labelledby="now-playing">
+    <header><p id="now-playing"></p></header>
+    <video controls playsinline preload="auto"></video>
+    <form method="dialog" class="video-dialog-actions"><button aria-label="关闭播放器">关闭 ×</button></form>
+  </dialog>
+</section></main><nav class="video-return" aria-label="返回上一级"><a href="/#videos">← 返回首页</a></nav><script>const videoItems = [{"title":"20秒PV","category":"叙事短片","cover":"portfolio-videos/pv.webp","portrait":false,"source":"portfolio-videos/pv.mp4","time":"0:20","start":7.21404072},{"title":"运动鞋 CG TVC","category":"产品广告","cover":"portfolio-videos/sneaker.webp","portrait":false,"source":"portfolio-videos/sneaker.mp4","time":"0:30","start":10.8288},{"title":"卓威 ZOWIE 鼠标 CG 广告","category":"产品广告","cover":"portfolio-videos/zowie.webp","portrait":false,"source":"portfolio-videos/zowie.mp4","time":"0:15","start":5.4259182},{"title":"换装视频","category":"角色视觉","cover":"portfolio-videos/outfit.webp","portrait":true,"source":"portfolio-videos/outfit.mp4","time":"0:15","start":5.45004072}];
+const videoSection = document.querySelector('#videos');
+const feature = videoSection.querySelector('.video-feature');
+const options = videoSection.querySelectorAll('.video-option');
+const teaser = feature.querySelector('video');
+const playerDialog = videoSection.querySelector('.video-dialog');
+const player = playerDialog.querySelector('video');
+let selectedVideo = 0;
+let previewRequested = false;
+
+function stopTeaser() {
+  previewRequested = false;
+  teaser.pause();
+  teaser.classList.remove('playing');
+}
+function selectVideo(index) {
+  stopTeaser();
+  selectedVideo = index;
+  const item = videoItems[index];
+  feature.querySelector('img').src = item.cover;
+  feature.querySelector('strong').textContent = item.title;
+  feature.querySelector('small').textContent = item.category + ' · ' + item.time;
+  feature.setAttribute('aria-label','播放 ' + item.title);
+  options.forEach((button,i) => button.setAttribute('aria-pressed',String(i === index)));
+}
+options.forEach((button,index) => button.addEventListener('click',() => selectVideo(index)));
+feature.addEventListener('pointerenter', event => {
+  if (event.pointerType !== 'mouse' || matchMedia('(prefers-reduced-motion: reduce)').matches || playerDialog.open) return;
+  previewRequested = true;
+  const item = videoItems[selectedVideo];
+  teaser.src = item.source + '#t=' + item.start + ',' + (item.start + 2.5);
+  teaser.play().then(() => {
+    if (previewRequested) teaser.classList.add('playing');
+  }).catch(stopTeaser);
+});
+feature.addEventListener('pointerleave',stopTeaser);
+teaser.addEventListener('ended',stopTeaser);
+teaser.addEventListener('timeupdate',() => {
+  if (teaser.currentTime >= videoItems[selectedVideo].start + 2.5) stopTeaser();
+});
+feature.addEventListener('click',() => {
+  stopTeaser();
+  const item = videoItems[selectedVideo];
+  playerDialog.querySelector('#now-playing').textContent = item.title;
+  playerDialog.classList.toggle('portrait',item.portrait);
+  player.poster = item.cover;
+  player.src = item.source;
+  playerDialog.showModal();
+  player.play().catch(() => {});
+});
+playerDialog.addEventListener('close',() => {
+  player.pause();
+  player.removeAttribute('src');
+  player.load();
+});
+
+</script></body></html>
